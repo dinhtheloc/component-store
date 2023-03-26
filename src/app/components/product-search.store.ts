@@ -21,13 +21,11 @@ export class ProductSearchStore
       limit: 30,
       query: '',
     });
-
-    this.state$.subscribe(console.log);
   }
 
   private readonly search = this.effect<ProductSearchState>((trigger$) =>
     trigger$.pipe(
-      debounceTime(300),
+      debounceTime(1000),
       switchMap(({ skip, limit, query }) => {
         this.productStore.search({
           query,

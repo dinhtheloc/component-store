@@ -1,24 +1,13 @@
-<section>
-  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-    <header>
-      <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
-        Product Collection
-      </h2>
+import { Component, inject } from '@angular/core';
+import { provideComponentStore } from '@ngrx/component-store';
+import { ProductSearchStore } from './product-search.store';
 
-      <p class="mt-4 max-w-md text-gray-500">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
-        praesentium cumque iure dicta incidunt est ipsam, officia dolor fugit
-        natus?
-      </p>
-    </header>
-    <div class="mt-8 flex items-end justify-between">
-      <product-search></product-search>
-
-      <p class="text-sm text-gray-500">Showing <span> 4 </span> of 40</p>
-    </div>
-
-    <product-preview-list [products]="(product$ | async)!"></product-preview-list>
-
+@Component({
+  selector: 'product-paginator',
+  standalone: true,
+  imports: [],
+  providers: [provideComponentStore(ProductSearchStore)],
+  template: `
     <ol class="mt-8 flex justify-center gap-1 text-xs font-medium">
       <li>
         <a
@@ -95,7 +84,6 @@
         </a>
       </li>
     </ol>
-  </div>
-</section>
-<!-- </div> -->
-<!-- </section> -->
+  `,
+})
+export class ProductPaginatorComponent {}

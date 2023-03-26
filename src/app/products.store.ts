@@ -1,6 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { ComponentStore, OnStateInit, tapResponse } from '@ngrx/component-store';
-import { switchMap, withLatestFrom } from 'rxjs';
+import {
+  ComponentStore,
+  OnStateInit,
+  tapResponse,
+} from '@ngrx/component-store';
+import { switchMap, tap, withLatestFrom } from 'rxjs';
 import { ProductService } from './core/services/product.service';
 import { Product } from './models';
 
@@ -42,19 +46,20 @@ export class ProductStore extends ComponentStore<ProductState> {
 
   readonly search = this.effect<{
     query: string;
-    skip: number,
-    limit: number
+    skip: number;
+    limit: number;
   }>((trigger$) =>
     trigger$.pipe(
       switchMap(({ query }) =>
         this.productService.searchProducts(query).pipe(
           tapResponse(
-            (result) => this.updateProducts(result),
+            (result) => {
+              return this.updateProducts(result);
+            },
             (error: { message: string }) => this.setError(error.message)
           )
         )
       )
     )
   );
-
 }
